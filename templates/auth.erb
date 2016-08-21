@@ -1,0 +1,4 @@
+<% couchserver = Chef::DataBagItem.load( 'auth', 'couchserver' ) %>
+<%= couchserver['id'] %>:<%= couchserver['password'] %>:<%= couchserver['level'] %>
+<% sonarrserver = Chef::DataBagItem.load( 'auth', 'sonarrserver' ) %>
+<%= sonarrserver['id'] %>:<%= sonarrserver['password'] %>:<%= sonarrserver['level'] %>
