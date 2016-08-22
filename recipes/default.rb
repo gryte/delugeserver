@@ -169,6 +169,7 @@ end
 
 # manage auth file
 template 'create_auth' do
+  only_if { node['config']['auth'] == true }
   action :create
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'

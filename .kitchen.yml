@@ -17,3 +17,5 @@ suites:
     run_list:
       - recipe[delugeserver::default]
     attributes:
+      config:
+        auth: true

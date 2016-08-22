@@ -106,8 +106,20 @@ end
 
 # auth file exists
 describe file('/var/lib/deluge/.config/deluge/auth') do
+  # load node attributes
+  let(:node) { json('/tmp/kitchen/dna.json').params }
+
   it { should be_file }
   its('content') { should match "^localclient.*$" }
-  its('content') { should match "^couchserver:fakecouchpw:10$" }
-  its('content') { should match "^sonarrserver:fakesonarrpw:10$" }
+
+  its('content') {
+    skip if node["config"]["auth"] == false
+    should match "^couchserver:fakecouchpw:10$"
+    should match "^sonarrserver:fakesonarrpw:10$"
+  }
+  its('content') {
+    skip if node["config"]["auth"] == false
+    should match "^sonarrserver:fakesonarrpw:10$"
+  }
+
 end
