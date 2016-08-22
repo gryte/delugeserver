@@ -1,4 +1,6 @@
-<% couchserver = Chef::DataBagItem.load( 'auth', 'couchserver' ) %>
-<%= couchserver['id'] %>:<%= couchserver['password'] %>:<%= couchserver['level'] %>
-<% sonarrserver = Chef::DataBagItem.load( 'auth', 'sonarrserver' ) %>
-<%= sonarrserver['id'] %>:<%= sonarrserver['password'] %>:<%= sonarrserver['level'] %>
+<% # loop through each auth user data bag item %>
+<% auth_users = Chef::DataBag.load( 'auth' ) %>
+<% auth_users.each do |user| %>
+<% auth_user = Chef::DataBagItem.load( 'auth', user[0] ) %>
+<%= auth_user['id'] %>:<%= auth_user['password'] %>:<%= auth_user['level'] %>
+<% end %>
