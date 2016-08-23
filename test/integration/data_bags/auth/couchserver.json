@@ -1,5 +1,15 @@
 {
   "id": "couchserver",
-  "password": "fakecouchpw",
-  "level": 10
+  "password": {
+    "encrypted_data": "gAzBVmYTeLydX/xG2pBj3/BmIY5lJ2GIO/uhtka0qvg=\n",
+    "iv": "MF8QQmTDxE6cLaB36jmpHw==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "level": {
+    "encrypted_data": "B6ioKwmfuErC4ZP9NOQFwKaio3MvMF5KsiB3IAIJzLI=\n",
+    "iv": "BrlOHSa6oWMgPYp5hqYvrA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
 }

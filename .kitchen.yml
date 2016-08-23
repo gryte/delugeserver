@@ -14,6 +14,7 @@ platforms:
 suites:
   - name: default
     data_bags_path: "test/integration/data_bags"
+    encrypted_data_bag_secret_key_path: "test/integration/files/encrypted_data_bag_secret"
     run_list:
       - recipe[delugeserver::default]
     attributes:

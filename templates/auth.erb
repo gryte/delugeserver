@@ -1,6 +1,7 @@
 <% # loop through each auth user data bag item %>
 <% auth_users = Chef::DataBag.load( 'auth' ) %>
+<% secret = Chef::EncryptedDataBagItem.load_secret(Chef::Config[:encrypted_data_bag_secret]) %>
 <% auth_users.each do |user| %>
-<% auth_user = Chef::DataBagItem.load( 'auth', user[0] ) %>
+<% auth_user = Chef::EncryptedDataBagItem.load( 'auth', user[0], secret ) %>
 <%= auth_user['id'] %>:<%= auth_user['password'] %>:<%= auth_user['level'] %>
 <% end %>

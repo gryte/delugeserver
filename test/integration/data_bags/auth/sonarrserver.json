@@ -1,5 +1,15 @@
 {
   "id": "sonarrserver",
-  "password": "fakesonarrpw",
-  "level": 10
+  "password": {
+    "encrypted_data": "Md8lsIwyQOUWpyLcRYQWigiW2/XxC4pK5alPYd0d7mg=\n",
+    "iv": "HiZrXL5rJYcPiGgiIlZAEQ==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  },
+  "level": {
+    "encrypted_data": "s/Ees5lWH6CFP5KVzHC/6Op0CIAzWGP+KL8L7ryNvLg=\n",
+    "iv": "9yy97eS8f45+k4TYC9KkMA==\n",
+    "version": 1,
+    "cipher": "aes-256-cbc"
+  }
 }
