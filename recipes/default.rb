@@ -175,3 +175,44 @@ template 'create_auth' do
   source 'auth.erb'
   notifies :restart, 'service[restart_deluged]', :immediately
 end
+
+if node['config']['core.conf'] == true
+  # stop deluge-daemon service
+  execute 'stop_deluged' do
+    command 'systemctl stop deluged'
+    action :nothing
+  end
+
+  # manage core.conf file
+  template 'create_core.conf' do
+    notifies :run, 'execute[stop_deluged]', :before
+    action :create
+    path '/var/lib/deluge/.config/deluge/core.conf'
+    source 'core.conf.erb'
+    notifies :run, 'execute[start_deluged]', :immediately
+  end
+end
+
+if node['config']['label.conf'] == true
+  # stop deluge-daemon service
+  execute 'stop_deluged' do
+    command 'systemctl stop deluged'
+    action :nothing
+  end
+
+  # manage label.conf file
+  template 'create_label.conf' do
+    notifies :run, 'execute[stop_deluged]', :before
+    action :create
+    path '/var/lib/deluge/.config/deluge/label.conf'
+    source 'label.conf.erb'
+    notifies :run, 'execute[start_deluged]', :immediately
+  end
+end
+
+# install plugins
+node['plugin']['enable'].each do |plugin|
+  execute 'install_plugin' do
+    command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
+  end
+end

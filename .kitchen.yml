@@ -21,3 +21,7 @@ suites:
     attributes:
       config:
         auth: true
+        core.conf: true
+        label.conf: true
+      plugin:
+        enable: ['AutoAdd', 'Label']

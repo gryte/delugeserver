@@ -110,5 +110,27 @@ describe file('/var/lib/deluge/.config/deluge/auth') do
   its('content') { should match "^localclient.*$" }
   its('content') { should match "^sonarrserver:fakesonarrpw:10$" }
   its('content') { should match "^couchserver:fakecouchpw:10$" }
+end
 
+# core.conf file exists
+describe file('/var/lib/deluge/.config/deluge/core.conf') do
+  it { should be_file }
+  its('content') { should match '"allow_remote": true,$' }
+end
+
+# label.conf file exists
+describe file('/var/lib/deluge/.config/deluge/label.conf') do
+  it { should be_file }
+  its('content') { should match '.*"move_completed_path": "/\.deluge/complete/tv",' }
+  its('content') { should match '.*"move_completed_path": "/\.deluge/complete/movie",' }
+end
+
+# Plugin AutoAdd directory exists
+describe command('ls -blah /var/lib/deluge/.python-eggs/ | grep AutoAdd') do
+  its('stdout') { should match "AutoAdd" }
+end
+
+# Plugin Label directory exists
+describe command('ls -blah /var/lib/deluge/.python-eggs/ | grep Label') do
+  its('stdout') { should match "Label" }
 end
