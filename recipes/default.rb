@@ -39,10 +39,10 @@ package 'deluge-web' do
   action :install
   notifies :create, 'template[create_systemd_deluge-web_service]', :immediately
   notifies :run, 'execute[enable_deluge-web]', :immediately
-  notifies :run, 'execute[start_deluge-web]', :immediately
+  notifies :start, 'service[deluge-web]', :immediately
   notifies :create, 'template[create_systemd_deluged_service]', :immediately
   notifies :run, 'execute[enable_deluged]', :immediately
-  notifies :run, 'execute[start_deluged]', :immediately
+  notifies :start, 'service[deluged]', :immediately
   notifies :create, 'directory[create_delugedir]', :immediately
   notifies :create, 'directory[create_deluge_stagedir]', :immediately
   notifies :create, 'directory[create_deluge_prepdir]', :immediately
@@ -59,7 +59,7 @@ template 'create_systemd_deluged_service' do
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[restart_deluged]', :immediately
+  notifies :restart, 'service[deluged]', :immediately
 end
 
 # create deluge-web.service file
@@ -70,7 +70,7 @@ template 'create_systemd_deluge-web_service' do
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[restart_deluge-web]', :immediately
+  notifies :restart, 'service[deluge-web]', :immediately
 end
 
 # enable deluge-web service
@@ -79,9 +79,8 @@ execute 'enable_deluge-web' do
   action :nothing
 end
 
-# start deluge-web service
-execute 'start_deluge-web' do
-  command 'systemctl start deluge-web'
+# deluge-web service
+service 'deluge-web' do
   action :nothing
 end
 
@@ -137,7 +136,7 @@ end
 package 'deluge-daemon' do
   action :install
   notifies :run, 'execute[enable_deluged]', :immediately
-  notifies :run, 'execute[start_deluged]', :immediately
+  notifies :start, 'service[deluged]', :immediately
 end
 
 # enable deluge-daemon service
@@ -146,21 +145,8 @@ execute 'enable_deluged' do
   action :nothing
 end
 
-# start deluge-daemon service
-execute 'start_deluged' do
-  command 'systemctl start deluged'
-  action :nothing
-end
-
-# restart deluged service
-service 'restart_deluged' do
-  service_name 'deluged'
-  action :nothing
-end
-
-# restart deluge-web service
-service 'restart_deluge-web' do
-  service_name 'deluge-web'
+# deluge-daemon service
+service 'deluged' do
   action :nothing
 end
 
@@ -175,40 +161,28 @@ template 'create_auth' do
   action :create
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'
-  notifies :restart, 'service[restart_deluged]', :immediately
+  notifies :restart, 'service[deluged]', :immediately
 end
 
 if node['config']['core.conf'] == true
-  # stop deluge-daemon service
-  execute 'stop_deluged' do
-    command 'systemctl stop deluged'
-    action :nothing
-  end
-
   # manage core.conf file
   template 'create_core.conf' do
-    notifies :run, 'execute[stop_deluged]', :before
+    notifies :stop, 'service[deluged]', :before
     action :create
     path '/var/lib/deluge/.config/deluge/core.conf'
     source 'core.conf.erb'
-    notifies :run, 'execute[start_deluged]', :immediately
+    notifies :start, 'service[deluged]', :immediately
   end
 end
 
 if node['config']['label.conf'] == true
-  # stop deluge-daemon service
-  execute 'stop_deluged' do
-    command 'systemctl stop deluged'
-    action :nothing
-  end
-
   # manage label.conf file
   template 'create_label.conf' do
-    notifies :run, 'execute[stop_deluged]', :before
+    notifies :stop, 'service[deluged]', :before
     action :create
     path '/var/lib/deluge/.config/deluge/label.conf'
     source 'label.conf.erb'
-    notifies :run, 'execute[start_deluged]', :immediately
+    notifies :start, 'service[deluged]', :immediately
   end
 end
 
