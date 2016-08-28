@@ -186,9 +186,10 @@ if node['config']['label.conf'] == true
   end
 end
 
-# install plugins
+# install plugins if not already enabled
 node['plugin']['enable'].each do |plugin|
   execute 'install_plugin' do
+    not_if "sudo -u deluge deluge-console \"plugin -s\" | grep #{plugin}"
     command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
   end
 end

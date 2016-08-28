@@ -125,12 +125,12 @@ describe file('/var/lib/deluge/.config/deluge/label.conf') do
   its('content') { should match '.*"move_completed_path": "/\.deluge/complete/movie",' }
 end
 
-# Plugin AutoAdd directory exists
-describe command('ls -blah /var/lib/deluge/.python-eggs/ | grep AutoAdd') do
+# Plugin AutoAdd is enabled
+describe command('sudo -u deluge deluge-console "plugin -s" | grep AutoAdd') do
   its('stdout') { should match "AutoAdd" }
 end
 
-# Plugin Label directory exists
-describe command('ls -blah /var/lib/deluge/.python-eggs/ | grep Label') do
+# Plugin Label is enabled
+describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
   its('stdout') { should match "Label" }
 end
