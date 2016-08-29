@@ -155,16 +155,6 @@ template 'create_auth' do
   notifies :restart, 'service[deluged]', :delayed
 end
 
-# manage core.conf file
-template 'create_core.conf' do
-  only_if { node['config']['core.conf'] == true }
-  notifies :stop, 'service[deluged]', :before
-  action :create
-  path '/var/lib/deluge/.config/deluge/core.conf'
-  source 'core.conf.erb'
-  notifies :start, 'service[deluged]', :immediately
-end
-
 # manage label.conf file
 template 'create_label.conf' do
   only_if { node['config']['label.conf'] == true }
@@ -175,10 +165,20 @@ template 'create_label.conf' do
   notifies :start, 'service[deluged]', :immediately
 end
 
+# manage core.conf file
+if node['config']['core.conf']['manage']
+  node['config']['core.conf']['settings'].each do |setting, value|
+    execute 'set_config' do
+      not_if "cat /var/lib/deluge/.config/deluge/core.conf | grep -w #{setting} | grep -w #{value}"
+      command "sudo -u deluge deluge-console \"config -s #{setting} #{value}\""
+    end
+  end
+end
+
 # install plugins if not already enabled
 node['plugin']['enable'].each do |plugin|
   execute 'install_plugin' do
-    not_if "sudo -u deluge deluge-console \"plugin -s\" | grep #{plugin}"
+    not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
     command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
   end
 end

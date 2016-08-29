@@ -116,6 +116,11 @@ end
 describe file('/var/lib/deluge/.config/deluge/core.conf') do
   it { should be_file }
   its('content') { should match '"allow_remote": true,' }
+  its('content') { should match '"move_completed_path": "/\.deluge/complete",' }
+  its('content') { should match '"utpex": false,' }
+  its('content') { should match '"download_location": "/\.deluge/staging",' }
+  its('content') { should match '"dht": false,' }
+  its('content') { should match '"move_completed": true,' }
 end
 
 # label.conf file exists
