@@ -115,7 +115,7 @@ end
 # core.conf file exists
 describe file('/var/lib/deluge/.config/deluge/core.conf') do
   it { should be_file }
-  its('content') { should match '"allow_remote": true,$' }
+  its('content') { should match '"allow_remote": true,' }
 end
 
 # label.conf file exists

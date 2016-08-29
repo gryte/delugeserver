@@ -37,51 +37,33 @@ end
 # install deluge-web
 package 'deluge-web' do
   action :install
-  notifies :create, 'template[create_systemd_deluge-web_service]', :immediately
-  notifies :run, 'execute[enable_deluge-web]', :immediately
-  notifies :start, 'service[deluge-web]', :immediately
-  notifies :create, 'template[create_systemd_deluged_service]', :immediately
-  notifies :run, 'execute[enable_deluged]', :immediately
-  notifies :start, 'service[deluged]', :immediately
-  notifies :create, 'directory[create_delugedir]', :immediately
-  notifies :create, 'directory[create_deluge_stagedir]', :immediately
-  notifies :create, 'directory[create_deluge_prepdir]', :immediately
-  notifies :create, 'directory[create_deluge_completedir]', :immediately
-  notifies :create, 'directory[create_deluge_complete_tvdir]', :immediately
-  notifies :create, 'directory[create_deluge_complete_moviedir]', :immediately
 end
 
 # create deluged.service file
 template 'create_systemd_deluged_service' do
-  action :nothing
+  action :create
   path '/etc/systemd/system/deluged.service'
   source 'deluged.service.erb'
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[deluged]', :immediately
+  notifies :restart, 'service[deluged]', :delayed
 end
 
 # create deluge-web.service file
 template 'create_systemd_deluge-web_service' do
-  action :nothing
+  action :create
   path '/etc/systemd/system/deluge-web.service'
   source 'deluge-web.service.erb'
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[deluge-web]', :immediately
-end
-
-# enable deluge-web service
-execute 'enable_deluge-web' do
-  command 'systemctl enable deluge-web'
-  action :nothing
+  notifies :restart, 'service[deluge-web]', :delayed
 end
 
 # deluge-web service
 service 'deluge-web' do
-  action :nothing
+  action :enable
 end
 
 # create /.deluge directory
@@ -89,7 +71,7 @@ directory 'create_delugedir' do
   path '/.deluge'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
 end
 
 # create /.deluge/staging directory
@@ -97,7 +79,7 @@ directory 'create_deluge_stagedir' do
   path '/.deluge/staging'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
 end
 
 # create /.deluge/prep directory
@@ -105,7 +87,7 @@ directory 'create_deluge_prepdir' do
   path '/.deluge/prep'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
 end
 
 # create /.deluge/complete directory
@@ -113,7 +95,7 @@ directory 'create_deluge_completedir' do
   path '/.deluge/complete'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
 end
 
 # create /.deluge/complete/tv directory
@@ -121,7 +103,7 @@ directory 'create_deluge_complete_tvdir' do
   path '/.deluge/complete/tv'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
 end
 
 # create /.deluge/complete/movie directory
@@ -129,25 +111,34 @@ directory 'create_deluge_complete_moviedir' do
   path '/.deluge/complete/movie'
   owner 'deluge'
   group 'deluge'
-  action :nothing
+  action :create
+end
+
+# create /var/lib/deluge/.config directory
+directory 'create_deluge_.config_delugedir' do
+  path '/var/lib/deluge/.config'
+  owner 'deluge'
+  group 'deluge'
+  action :create
+end
+
+# create /var/lib/deluge/.config/deluge directory
+directory 'create_deluge_.config_delugedir' do
+  path '/var/lib/deluge/.config/deluge'
+  owner 'deluge'
+  group 'deluge'
+  action :create
 end
 
 # install deluge-daemon
 package 'deluge-daemon' do
   action :install
-  notifies :run, 'execute[enable_deluged]', :immediately
-  notifies :start, 'service[deluged]', :immediately
-end
-
-# enable deluge-daemon service
-execute 'enable_deluged' do
-  command 'systemctl enable deluged'
-  action :nothing
+  notifies :start, 'service[deluged]', :delayed
 end
 
 # deluge-daemon service
 service 'deluged' do
-  action :nothing
+  action :enable
 end
 
 # install deluge-console
@@ -161,29 +152,27 @@ template 'create_auth' do
   action :create
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'
-  notifies :restart, 'service[deluged]', :immediately
+  notifies :restart, 'service[deluged]', :delayed
 end
 
-if node['config']['core.conf'] == true
-  # manage core.conf file
-  template 'create_core.conf' do
-    notifies :stop, 'service[deluged]', :before
-    action :create
-    path '/var/lib/deluge/.config/deluge/core.conf'
-    source 'core.conf.erb'
-    notifies :start, 'service[deluged]', :immediately
-  end
+# manage core.conf file
+template 'create_core.conf' do
+  only_if { node['config']['core.conf'] == true }
+  notifies :stop, 'service[deluged]', :before
+  action :create
+  path '/var/lib/deluge/.config/deluge/core.conf'
+  source 'core.conf.erb'
+  notifies :start, 'service[deluged]', :immediately
 end
 
-if node['config']['label.conf'] == true
-  # manage label.conf file
-  template 'create_label.conf' do
-    notifies :stop, 'service[deluged]', :before
-    action :create
-    path '/var/lib/deluge/.config/deluge/label.conf'
-    source 'label.conf.erb'
-    notifies :start, 'service[deluged]', :immediately
-  end
+# manage label.conf file
+template 'create_label.conf' do
+  only_if { node['config']['label.conf'] == true }
+  notifies :stop, 'service[deluged]', :before
+  action :create
+  path '/var/lib/deluge/.config/deluge/label.conf'
+  source 'label.conf.erb'
+  notifies :start, 'service[deluged]', :immediately
 end
 
 # install plugins if not already enabled
