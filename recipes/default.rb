@@ -14,11 +14,10 @@ package 'epel-release' do
   action :install
 end
 
-# create downloads directory
+# create system directories
 directory '/.downloads' do
   owner 'root'
   group 'root'
-  action :create
 end
 
 # download nux-dextop rpm
@@ -66,74 +65,10 @@ service 'deluge-web' do
   action :enable
 end
 
-# create /.deluge directory
-directory 'create_delugedir' do
-  path '/.deluge'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /.deluge/staging directory
-directory 'create_deluge_stagedir' do
-  path '/.deluge/staging'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /.deluge/prep directory
-directory 'create_deluge_prepdir' do
-  path '/.deluge/prep'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /.deluge/complete directory
-directory 'create_deluge_completedir' do
-  path '/.deluge/complete'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /.deluge/complete/tv directory
-directory 'create_deluge_complete_tvdir' do
-  path '/.deluge/complete/tv'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /.deluge/complete/movie directory
-directory 'create_deluge_complete_moviedir' do
-  path '/.deluge/complete/movie'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /var/lib/deluge/.config directory
-directory 'create_deluge_.config_delugedir' do
-  path '/var/lib/deluge/.config'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
-# create /var/lib/deluge/.config/deluge directory
-directory 'create_deluge_.config_delugedir' do
-  path '/var/lib/deluge/.config/deluge'
-  owner 'deluge'
-  group 'deluge'
-  action :create
-end
-
 # install deluge-daemon
 package 'deluge-daemon' do
   action :install
-  notifies :start, 'service[deluged]', :delayed
+  notifies :start, 'service[deluged]', :immediately
 end
 
 # deluge-daemon service
@@ -146,10 +81,15 @@ package 'deluge-console' do
   action :install
 end
 
+# manage deluge app directories
+include_recipe 'delugeserver::app_directory'
+
 # manage auth file
 template 'create_auth' do
   only_if { node['config']['auth'] == true }
   action :create
+  owner 'deluge'
+  group 'deluge'
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'
   notifies :restart, 'service[deluged]', :delayed
@@ -160,6 +100,8 @@ template 'create_label.conf' do
   only_if { node['config']['label.conf'] == true }
   notifies :stop, 'service[deluged]', :before
   action :create
+  owner 'deluge'
+  group 'deluge'
   path '/var/lib/deluge/.config/deluge/label.conf'
   source 'label.conf.erb'
   notifies :start, 'service[deluged]', :immediately

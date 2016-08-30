@@ -8,3 +8,39 @@ default['config']['label.conf'] = false
 
 # manage plugins
 default['plugin']['enable'] = ['']
+
+# manage directory creation
+default['app']['directories'] = {
+  '/.deluge' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/.deluge/staging' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/.deluge/prep' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/.deluge/complete' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/.deluge/complete/tv' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/.deluge/complete/movie' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/var/lib/deluge/.config' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  },
+  '/var/lib/deluge/.config/deluge' => {
+    'owner' => 'deluge',
+    'group' => 'deluge'
+  }
+}
