@@ -23,6 +23,13 @@ suites:
         auth: true
         core.conf:
           manage: true
+          settings:
+            move_completed_path: "/.deluge/complete"
+            move_completed: "true"
+            allow_remote: "true"
+            download_location: "/.deluge/staging"
+            utpex: "false"
+            dht: "false"
         label.conf: true
       plugin:
         enable: ['AutoAdd', 'Label']
