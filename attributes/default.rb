@@ -35,12 +35,4 @@ default['app']['directories'] = {
     'owner' => 'deluge',
     'group' => 'deluge'
   },
-  '/var/lib/deluge/.config' => {
-    'owner' => 'deluge',
-    'group' => 'deluge'
-  },
-  '/var/lib/deluge/.config/deluge' => {
-    'owner' => 'deluge',
-    'group' => 'deluge'
-  }
 }

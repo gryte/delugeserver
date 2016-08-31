@@ -33,6 +33,12 @@ package 'nux-dextop' do
   action :install
 end
 
+# install deluge-daemon
+package 'deluge-daemon' do
+  action :install
+  notifies :create, 'template[create_systemd_deluged_service]', :immediately
+end
+
 # install deluge-web
 package 'deluge-web' do
   action :install
@@ -46,7 +52,7 @@ template 'create_systemd_deluged_service' do
   owner 'root'
   group 'root'
   mode '0755'
-  notifies :restart, 'service[deluged]', :delayed
+  notifies :restart, 'service[deluged]', :immediately
 end
 
 # create deluge-web.service file
@@ -63,12 +69,6 @@ end
 # deluge-web service
 service 'deluge-web' do
   action :enable
-end
-
-# install deluge-daemon
-package 'deluge-daemon' do
-  action :install
-  notifies :start, 'service[deluged]', :immediately
 end
 
 # deluge-daemon service
