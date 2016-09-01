@@ -121,6 +121,7 @@ describe file('/var/lib/deluge/.config/deluge/core.conf') do
   its('content') { should match '"download_location": "/\.deluge/staging",' }
   its('content') { should match '"dht": false,' }
   its('content') { should match '"move_completed": true,' }
+  its('content') { should match '"lsd": false,' }
 end
 
 # label.conf file exists

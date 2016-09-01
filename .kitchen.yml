@@ -30,6 +30,7 @@ suites:
             download_location: "/.deluge/staging"
             utpex: "false"
             dht: "false"
+            lsd: "false"
         label.conf: true
       plugin:
         enable: ['AutoAdd', 'Label']
