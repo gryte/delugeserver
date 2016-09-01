@@ -8,7 +8,7 @@ User=deluge
 Group=deluge
 UMask=007
 
-ExecStart=/usr/bin/deluged -d
+ExecStart=/usr/bin/deluged -d <%= node['deluge']['daemon']['logs']['enabled'] %> <%= node['deluge']['daemon']['logs']['file'] %> <%= node['deluge']['daemon']['logs']['level'] %>
 
 Restart=on-failure
 

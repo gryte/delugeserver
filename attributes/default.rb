@@ -1,3 +1,7 @@
+#General settings
+default['deluge']['version'] = '1.3.12-1'
+default['deluge']['release'] = 'el7'
+
 # manage auth file users
 default['config']['auth'] = false
 
@@ -36,3 +40,11 @@ default['app']['directories'] = {
     'group' => 'deluge'
   },
 }
+
+# Logging
+default['deluge']['logs']['enabled'] = true
+default['deluge']['daemon']['logs']['file'] = ''
+default['deluge']['daemon']['logs']['level'] = ''
+
+default['deluge']['web']['logs']['file'] = ''
+default['deluge']['web']['logs']['level'] = ''

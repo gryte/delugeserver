@@ -1,26 +1,13 @@
-# wget is installed
-describe package('wget') do
-  it { should be_installed }
+# Nux_Dextop repo exists
+describe yum.repo('Nux_Dextop') do
+  it { should exist }
+  it { should be_enabled }
 end
 
-# epel-release is installed
-describe package('epel-release') do
-  it { should be_installed }
-end
-
-# downloads directory exists
-describe directory('/.downloads') do
-  it { should be_directory}
-end
-
-# nux-dextop exists
-describe file('/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm') do
-  it { should be_file }
-end
-
-# nux-desktop is installed
-describe command('rpm -V nux-dextop-release-0-5.el7.nux.noarch') do
-  its('stdout') { should eq ''}
+# Epel repo exists
+describe yum.repo('epel') do
+  it { should exist }
+  it { should be_enabled }
 end
 
 # deluge-web is installed
@@ -139,3 +126,5 @@ end
 describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
   its('stdout') { should match "Label" }
 end
+
+
