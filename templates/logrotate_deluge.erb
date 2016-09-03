@@ -1,0 +1,13 @@
+/var/log/deluge/*.log {
+        rotate 4
+        weekly
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+        postrotate
+                systemctl restart deluged >/dev/null 2>&1 || true
+                systemctl restart deluge-web >/dev/null 2>&1 || true
+        endscript
+}

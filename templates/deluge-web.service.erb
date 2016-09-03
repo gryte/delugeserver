@@ -9,7 +9,7 @@ User=deluge
 Group=deluge
 UMask=027
 
-ExecStart=/usr/bin/deluge-web
+ExecStart=/usr/bin/deluge-web <%= node['deluge']['daemon']['logs']['file'] %> <%= node['deluge']['daemon']['logs']['level'] %>
 
 Restart=on-failure
 

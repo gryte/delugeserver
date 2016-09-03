@@ -5,3 +5,6 @@ license 'all_rights'
 description 'Installs/Configures delugeserver'
 long_description 'Installs/Configures delugeserver'
 version '0.1.0'
+
+depends 'yum', '~> 3.12.0'
+depends 'yum-epel', '~> 0.7.1'

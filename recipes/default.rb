@@ -4,15 +4,7 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-# install wget
-package 'wget' do
-  action :install
-end
-
-# install epel-release
-package 'epel-release' do
-  action :install
-end
+include_recipe 'delugeserver::yum_setup'
 
 # create system directories
 directory '/.downloads' do
@@ -20,65 +12,46 @@ directory '/.downloads' do
   group 'root'
 end
 
-# download nux-dextop rpm
-execute 'nux-dextop_download' do
-  not_if do ::File.exists?('/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm') end
-  command 'wget http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm -P /.downloads/'
-  action :run
-end
-
-# install nux-dextop
-package 'nux-dextop' do
-  source '/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm'
-  action :install
-end
-
 # install deluge-daemon
-package 'deluge-daemon' do
+package 'deluge' do
   action :install
-  notifies :create, 'template[create_systemd_deluged_service]', :immediately
+  version "#{node['deluge']['version']}.#{node['deluge']['release']}.nux"
 end
 
-# install deluge-web
-package 'deluge-web' do
-  action :install
+if node['deluge']['logs']['enabled']
+  node.default['deluge']['daemon']['logs']['file'] = '-l /var/log/deluge/daemon.log'
+  node.default['deluge']['daemon']['logs']['level'] = '-L warning'
+  node.default['deluge']['web']['logs']['file'] = '-l /var/log/deluge/web.log'
+  node.default['deluge']['web']['logs']['level'] = '-L warning'
+  directory '/var/log/deluge' do
+    owner 'deluge'
+    group 'deluge'
+    mode '750'
+    action :create
+  end
+  template '/etc/logrotate.d/deluge' do
+    source 'logrotate_deluge.erb'
+    owner 'root'
+    group 'root'
+    mode '644'
+  end
 end
 
-# create deluged.service file
-template 'create_systemd_deluged_service' do
-  action :create
-  path '/etc/systemd/system/deluged.service'
-  source 'deluged.service.erb'
-  owner 'root'
-  group 'root'
-  mode '0755'
-  notifies :restart, 'service[deluged]', :immediately
+services = %w[deluged deluge-web]
+services.each do |svc|
+  template "/etc/systemd/system/#{svc}.service" do
+    source "#{svc}.service.erb"
+    owner 'root'
+    group 'root'
+    mode '644'
+    notifies :restart, "service[#{svc}]", :delayed
+  end
 end
 
-# create deluge-web.service file
-template 'create_systemd_deluge-web_service' do
-  action :create
-  path '/etc/systemd/system/deluge-web.service'
-  source 'deluge-web.service.erb'
-  owner 'root'
-  group 'root'
-  mode '0755'
-  notifies :restart, 'service[deluge-web]', :delayed
-end
-
-# deluge-web service
-service 'deluge-web' do
-  action :enable
-end
-
-# deluge-daemon service
-service 'deluged' do
-  action :enable
-end
-
-# install deluge-console
-package 'deluge-console' do
-  action :install
+services.each do |svc|
+  service "#{svc}" do
+      action [ :enable, :start ]
+  end
 end
 
 # manage deluge app directories
