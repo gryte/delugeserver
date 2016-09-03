@@ -1,16 +1,16 @@
 # manage auth file users
-default['config']['auth'] = false
+default['deluge']['config']['auth'] = false
 
 # manage configuration files
-default['config']['core.conf']['manage'] = false
-default['config']['core.conf']['settings'] = {}
-default['config']['label.conf'] = false
+default['deluge']['config']['core.conf']['manage'] = false
+default['deluge']['config']['core.conf']['settings'] = {}
+default['deluge']['config']['label.conf'] = false
 
 # manage plugins
-default['plugin']['enable'] = ['']
+default['deluge']['plugin']['enable'] = ['']
 
 # manage directory creation
-default['app']['directories'] = {
+default['deluge']['app']['directories'] = {
   '/.deluge' => {
     'owner' => 'deluge',
     'group' => 'deluge'

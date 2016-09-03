@@ -19,18 +19,19 @@ suites:
     run_list:
       - recipe[delugeserver::default]
     attributes:
-      config:
-        auth: true
-        core.conf:
-          manage: true
-          settings:
-            move_completed_path: "/.deluge/complete"
-            move_completed: "true"
-            allow_remote: "true"
-            download_location: "/.deluge/staging"
-            utpex: "false"
-            dht: "false"
-            lsd: "false"
-        label.conf: true
-      plugin:
-        enable: ['AutoAdd', 'Label']
+      deluge:
+        config:
+          auth: true
+          core.conf:
+            manage: true
+            settings:
+              move_completed_path: "/.deluge/complete"
+              move_completed: "true"
+              allow_remote: "true"
+              download_location: "/.deluge/staging"
+              utpex: "false"
+              dht: "false"
+              lsd: "false"
+          label.conf: true
+        plugin:
+          enable: ['AutoAdd', 'Label']

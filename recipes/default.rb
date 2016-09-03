@@ -86,7 +86,7 @@ include_recipe 'delugeserver::app_directory'
 
 # manage auth file
 template 'create_auth' do
-  only_if { node['config']['auth'] == true }
+  only_if { node['deluge']['config']['auth'] == true }
   action :create
   owner 'deluge'
   group 'deluge'
@@ -97,7 +97,7 @@ end
 
 # manage label.conf file
 template 'create_label.conf' do
-  only_if { node['config']['label.conf'] == true }
+  only_if { node['deluge']['config']['label.conf'] == true }
   notifies :stop, 'service[deluged]', :before
   action :create
   owner 'deluge'
@@ -108,8 +108,8 @@ template 'create_label.conf' do
 end
 
 # manage core.conf file
-if node['config']['core.conf']['manage']
-  node['config']['core.conf']['settings'].each do |setting, value|
+if node['deluge']['config']['core.conf']['manage']
+  node['deluge']['config']['core.conf']['settings'].each do |setting, value|
     execute 'set_config' do
       not_if "cat /var/lib/deluge/.config/deluge/core.conf | grep -w #{setting} | grep -w #{value}"
       command "sudo -u deluge deluge-console \"config -s #{setting} #{value}\""
@@ -118,7 +118,7 @@ if node['config']['core.conf']['manage']
 end
 
 # install plugins if not already enabled
-node['plugin']['enable'].each do |plugin|
+node['deluge']['plugin']['enable'].each do |plugin|
   execute 'install_plugin' do
     not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
     command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
