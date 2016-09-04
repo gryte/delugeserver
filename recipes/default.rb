@@ -118,9 +118,11 @@ if node['deluge']['config']['core.conf']['manage']
 end
 
 # install plugins if not already enabled
-node['deluge']['plugin']['enable'].each do |plugin|
-  execute 'install_plugin' do
-    not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
-    command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
+if node['deluge']['plugin']['enable'].empty? == false
+  node['deluge']['plugin']['enable'].each do |plugin|
+    execute 'install_plugin' do
+      not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
+      command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
+    end
   end
 end
