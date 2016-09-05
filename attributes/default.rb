@@ -7,7 +7,7 @@ default['deluge']['config']['core.conf']['settings'] = {}
 default['deluge']['config']['label.conf'] = false
 
 # manage plugins
-default['deluge']['plugin']['enable'] = ['']
+default['deluge']['plugin']['enable'] = []
 
 # manage directory creation
 default['deluge']['app']['directories'] = {

@@ -118,7 +118,7 @@ if node['deluge']['config']['core.conf']['manage']
 end
 
 # install plugins if not already enabled
-if node['deluge']['plugin']['enable'].empty? == false
+unless node['deluge']['plugin']['enable'].empty?
   node['deluge']['plugin']['enable'].each do |plugin|
     execute 'install_plugin' do
       not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
