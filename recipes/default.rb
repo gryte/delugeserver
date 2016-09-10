@@ -6,6 +6,7 @@
 
 # disable requiretty in sudoers
 execute 'disable_requiretty' do
+  not_if "sudo cat /etc/sudoers | grep -w '\#Defaults requiretty'"
   command "sudo sed -i '/Defaults \+requiretty/s/^/#/' /etc/sudoers"
   action :run
 end
