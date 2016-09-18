@@ -4,12 +4,6 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-# disable requiretty in sudoers
-execute 'disable_requiretty' do
-  command "sudo sed -i '/^Defaults \+requiretty/s/^/#/' /etc/sudoers"
-  action :run
-end
-
 # install wget
 package 'wget' do
   action :install

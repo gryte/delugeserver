@@ -140,8 +140,3 @@ end
 describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
   its('stdout') { should match "Label" }
 end
-
-# sudoers requiretty disabled
-describe file('/etc/sudoers') do
-  its('content') { should match "\#Defaults requiretty"}
-end
