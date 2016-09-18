@@ -1,14 +1,14 @@
 {
   "id": "couchserver",
-  "password": {
-    "encrypted_data": "gAzBVmYTeLydX/xG2pBj3/BmIY5lJ2GIO/uhtka0qvg=\n",
-    "iv": "MF8QQmTDxE6cLaB36jmpHw==\n",
+  "prod": {
+    "encrypted_data": "LGtWOogoPBOLxk/X5p8OyomFJSgSiGb9VlNbCvhwnpI=\n",
+    "iv": "j/mN387/FfkPpFyMXNnAAg==\n",
     "version": 1,
     "cipher": "aes-256-cbc"
   },
-  "level": {
-    "encrypted_data": "B6ioKwmfuErC4ZP9NOQFwKaio3MvMF5KsiB3IAIJzLI=\n",
-    "iv": "BrlOHSa6oWMgPYp5hqYvrA==\n",
+  "test": {
+    "encrypted_data": "z6e+xD11AdUb8MFFoytAl1wrm8WH+CnRSNV7ztZOC3NhlhktZdEqm3TZ9aXi\nNo7BYpHj6iv2bDcvfrJlICuTNQ==\n",
+    "iv": "riwI9VJrqUYNmHRqwzZqEA==\n",
     "version": 1,
     "cipher": "aes-256-cbc"
   }

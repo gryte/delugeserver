@@ -1,14 +1,14 @@
 {
   "id": "localclient",
-  "password": {
-    "encrypted_data": "FZXiy/lLoh3z0C1QcmxsqGv6Ou31fslHhd0n75SzzEqApjR37j9vexh53GBI\nq/gi\n",
-    "iv": "umXPnBSpOr3psVwSpzkBqw==\n",
+  "prod": {
+    "encrypted_data": "k9deJ6UwlHZlv8n4Xu6mIDXE0PISmyO0Y8IMICCdVEg=\n",
+    "iv": "C7+sL1kz1NnhXoI8hm4gQQ==\n",
     "version": 1,
     "cipher": "aes-256-cbc"
   },
-  "level": {
-    "encrypted_data": "A9n0jBI8tIu+y1NQzP6eUvNRIYh7iATuntnIj4zbiG0=\n",
-    "iv": "VLp9NG6QU49ekYdYtYuupg==\n",
+  "test": {
+    "encrypted_data": "oQ6bnbF4drivlkjqKWZ/JLNDtpm/7A1RtbLD04TwfTSMnQfaoCwrh3aJyi3D\nEVqMDaiK2iB9f4WWdRxTC8MyCQ==\n",
+    "iv": "aVi/h+FpAO5QHAGLo9rPSA==\n",
     "version": 1,
     "cipher": "aes-256-cbc"
   }

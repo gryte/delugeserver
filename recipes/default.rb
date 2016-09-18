@@ -93,6 +93,9 @@ template 'create_auth' do
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'
   notifies :restart, 'service[deluged]', :delayed
+  variables({
+    :env => node.chef_environment
+    })
 end
 
 # manage label.conf file
