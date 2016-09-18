@@ -129,3 +129,8 @@ unless node['deluge']['plugin']['enable'].empty?
     end
   end
 end
+
+# install unrar
+package 'unrar' do
+  action :install
+end

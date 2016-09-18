@@ -140,3 +140,8 @@ end
 describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
   its('stdout') { should match "Label" }
 end
+
+# unrar is installed
+describe package('unrar') do
+  it { should be_installed }
+end
