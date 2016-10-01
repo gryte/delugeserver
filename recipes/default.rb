@@ -102,7 +102,7 @@ end
 template 'create_label.conf' do
   only_if { node['deluge']['config']['label.conf'] == true }
   notifies :stop, 'service[deluged]', :before
-  action :create
+  action :create_if_missing
   owner 'deluge'
   group 'deluge'
   path '/var/lib/deluge/.config/deluge/label.conf'
