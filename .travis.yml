@@ -1,5 +1,5 @@
-language: ruby
-
+sudo: required
+dist: trusty
 
 # install the pre-release chef-dk.  Use chef-stable-precise to install the stable release
 addons:
@@ -16,14 +16,13 @@ env:
     - machine_port=22
     - KITCHEN_YAML=.kitchen.travis.yml
 
-rvm:
-  - 2.1.7
-
-sudo: required
-dist: trusty
-
 before_install:
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
+
+# Ensure we make ChefDK's Ruby the default
+before_script:
+  # https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
 
 script:
   - /opt/chefdk/embedded/bin/chef --version
