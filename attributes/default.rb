@@ -61,5 +61,5 @@ default['deluge']['app']['directories'] = {
   '/.deluge/complete/movie' => {
     'owner' => 'deluge',
     'group' => 'deluge'
-  },
+  }
 }

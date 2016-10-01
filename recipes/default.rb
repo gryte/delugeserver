@@ -22,7 +22,7 @@ end
 
 # download nux-dextop rpm
 execute 'nux-dextop_download' do
-  not_if do ::File.exists?('/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm') end
+  not_if { ::File.exist?('/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm') }
   command 'wget http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm -P /.downloads/'
   action :run
 end
@@ -93,9 +93,9 @@ template 'create_auth' do
   path '/var/lib/deluge/.config/deluge/auth'
   source 'auth.erb'
   notifies :restart, 'service[deluged]', :delayed
-  variables({
-    :env => node.chef_environment
-    })
+  variables(
+    env: node.chef_environment
+  )
 end
 
 # manage label.conf file

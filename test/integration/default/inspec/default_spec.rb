@@ -10,7 +10,7 @@ end
 
 # downloads directory exists
 describe directory('/.downloads') do
-  it { should be_directory}
+  it { should be_directory }
 end
 
 # nux-dextop exists
@@ -20,7 +20,7 @@ end
 
 # nux-desktop is installed
 describe command('rpm -V nux-dextop-release-0-5.el7.nux.noarch') do
-  its('stdout') { should eq ''}
+  its('stdout') { should eq '' }
 end
 
 # deluge-web is installed
@@ -107,9 +107,9 @@ end
 # auth file exists
 describe file('/var/lib/deluge/.config/deluge/auth') do
   it { should be_file }
-  its('content') { should match "^localclient.*$" }
-  its('content') { should match "^sonarrserver:fakesonarrpw:10$" }
-  its('content') { should match "^couchserver:fakecouchpw:10$" }
+  its('content') { should match '^localclient.*$' }
+  its('content') { should match '^sonarrserver:fakesonarrpw:10$' }
+  its('content') { should match '^couchserver:fakecouchpw:10$' }
 end
 
 # core.conf file exists
@@ -133,12 +133,12 @@ end
 
 # Plugin AutoAdd is enabled
 describe command('sudo -u deluge deluge-console "plugin -s" | grep AutoAdd') do
-  its('stdout') { should match "AutoAdd" }
+  its('stdout') { should match 'AutoAdd' }
 end
 
 # Plugin Label is enabled
 describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
-  its('stdout') { should match "Label" }
+  its('stdout') { should match 'Label' }
 end
 
 # unrar is installed
