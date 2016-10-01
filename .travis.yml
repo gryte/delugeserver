@@ -1,5 +1,14 @@
 language: ruby
 
+
+# install the pre-release chef-dk.  Use chef-stable-precise to install the stable release
+addons:
+  apt:
+    sources:
+      - chef-stable-precise
+    packages:
+      - chefdk
+
 env:
   global:
     - machine_user=travis
@@ -17,7 +26,8 @@ before_install:
   - sudo usermod -p "`openssl passwd -1 'travis'`" travis
 
 script:
-  - kitchen verify centos
+  - /opt/chefdk/embedded/bin/chef --version
+  - /opt/chefdk/embedded/bin/kitchen verify centos
 
 branches:
   only:
