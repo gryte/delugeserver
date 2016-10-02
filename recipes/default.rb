@@ -21,10 +21,10 @@ directory '/.downloads' do
 end
 
 # download nux-dextop rpm
-execute 'nux-dextop_download' do
+remote_file 'nux-dextop_download' do
   not_if { ::File.exist?('/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm') }
-  command 'wget http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm -P /.downloads/'
-  action :run
+  path '/.downloads/nux-dextop-release-0-5.el7.nux.noarch.rpm'
+  source 'http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm'
 end
 
 # install nux-dextop
@@ -113,7 +113,7 @@ end
 # manage core.conf file
 if node['deluge']['config']['core.conf']['manage']
   node['deluge']['config']['core.conf']['settings'].each do |setting, value|
-    execute 'set_config' do
+    execute "set_config_#{setting}" do
       not_if "cat /var/lib/deluge/.config/deluge/core.conf | grep -w #{setting} | grep -w #{value}"
       command "sudo -u deluge deluge-console \"config -s #{setting} #{value}\""
     end
@@ -123,7 +123,7 @@ end
 # install plugins if not already enabled
 unless node['deluge']['plugin']['enable'].empty?
   node['deluge']['plugin']['enable'].each do |plugin|
-    execute 'install_plugin' do
+    execute "install_plugin_#{plugin}" do
       not_if "sudo -u deluge deluge-console \"plugin -s\" | grep -w #{plugin}"
       command "sudo -u deluge deluge-console \"plugin -e #{plugin}\""
     end
