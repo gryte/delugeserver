@@ -32,6 +32,12 @@ kitchen test
 
 ## Meta
 
+|branch|travis-ci status|
+|------|----------------|
+|*dev*|![dev status](https://travis-ci.org/gryte/delugeserver.svg?branch=dev)|
+|*test*|![test status](https://travis-ci.org/gryte/delugeserver.svg?branch=test)|
+|*master*|![master status](https://travis-ci.org/gryte/delugeserver.svg?branch=master)|
+
 Adam Linkous – [@gryte_meowmix](https://twitter.com/gryte_meowmix) – alinkous+support@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
