@@ -1,4 +1,23 @@
-language: ruby
+sudo: required
+dist: trusty
+
+# install the stable release of chefdk
+addons:
+  apt:
+    sources:
+      - chef-stable-trusty
+    packages:
+      - chefdk
+
+# Don't `bundle install` which takes about 1.5 mins
+install: echo "skip bundle install"
+
+branches:
+  only:
+    - dev
+
+before_script:
+  - eval "$(/opt/chefdk/bin/chef shell-init bash)"
 
 script:
-- bundle exec rake
+  - /opt/chefdk/bin/chef exec rake
