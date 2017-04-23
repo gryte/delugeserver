@@ -134,3 +134,8 @@ end
 package 'unrar' do
   action :install
 end
+
+# firewalld service
+service 'firewalld' do
+  action [:enable, :start]
+end
