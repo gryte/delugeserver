@@ -139,3 +139,34 @@ end
 service 'firewalld' do
   action [:enable, :start]
 end
+
+# reload firewalld config
+execute 'firewalld_reload' do
+  command 'firewall-cmd --reload'
+  action :nothing
+  notifies :run, 'execute[firewalld_regservice]', :immediately
+end
+
+# register firewalld rules
+execute 'firewalld_regservice' do
+  command 'firewall-cmd --permanent --add-service=deluge-web'
+  action :nothing
+  notifies :run, 'execute[firewalld_regzone]', :immediately
+end
+
+# register firewalld zone
+execute 'firewalld_regzone' do
+  command 'firewall-cmd --permanent --zone=public --add-service=deluge-web'
+  action :nothing
+  notifies :restart, 'service[firewalld]'
+end
+
+# create firewalld service file
+cookbook_file '/etc/firewalld/services/deluge-web.xml' do
+  source 'deluge-web.xml'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  action :create
+  notifies :run, 'execute[firewalld_reload]', :immediately
+end
