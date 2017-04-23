@@ -145,3 +145,20 @@ end
 describe package('unrar') do
   it { should be_installed }
 end
+
+# firewalld service is enabled and running
+describe service('firewalld') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+
+# deluge-web port 8112 is listening
+describe port(8_112) do
+  it { should be_listening }
+end
+
+# iptables is configured
+describe iptables(chain: 'IN_public_allow') do
+  it { should have_rule('-A IN_public_allow -p tcp -m tcp --dport 8112 -m conntrack --ctstate NEW -j ACCEPT') }
+end

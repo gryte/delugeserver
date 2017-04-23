@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>deluge-web</short>
+  <description>This enables network access for deluge-web services as defined by https://wiki.archlinux.org/index.php/deluge#Firewall</description>
+  <port protocol="tcp" port="8112"/>
+</service>
