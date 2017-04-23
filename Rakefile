@@ -36,5 +36,5 @@ task remove_test: [:deletenode_test, :deleteclient_test]
 
 desc 'Bootstrap test server'
 task bootstrap_test: [:upload_test] do
-  sh 'knife bootstrap 192.168.1.125 -E test -N testserver -r delugeserver --sudo --ssh-user test --ssh-password test --use-sudo-password'
+  sh 'knife bootstrap 192.168.1.211 -E test -N testserver -r delugeserver --sudo --ssh-user test --ssh-password test --use-sudo-password'
 end

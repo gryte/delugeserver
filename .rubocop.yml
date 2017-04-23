@@ -1,0 +1,4 @@
+# should be managing line endings in git source control
+# if left enabled then warning will always appear when developing from windows
+EndOfLine:
+  Enabled: false

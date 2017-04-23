@@ -40,26 +40,26 @@ default['deluge']['plugin']['enable'] = []
 default['deluge']['app']['directories'] = {
   '/.deluge' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
+    'group' => 'deluge',
   },
   '/.deluge/staging' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
+    'group' => 'deluge',
   },
   '/.deluge/prep' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
+    'group' => 'deluge',
   },
   '/.deluge/complete' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
+    'group' => 'deluge',
   },
   '/.deluge/complete/tv' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
+    'group' => 'deluge',
   },
   '/.deluge/complete/movie' => {
     'owner' => 'deluge',
-    'group' => 'deluge'
-  }
+    'group' => 'deluge',
+  },
 }
