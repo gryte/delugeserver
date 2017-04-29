@@ -1,4 +1,8 @@
 #
+#    manage firewall
+#
+default['firewall']['allow_ssh'] = true
+#
 #    manage auth file users
 #
 # If set to true, then the cookbook will create the file
