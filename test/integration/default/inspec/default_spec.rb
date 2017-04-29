@@ -158,7 +158,13 @@ describe port(8_112) do
   it { should be_listening }
 end
 
+# deluge-web port 8112 is listening
+describe port(58_846) do
+  it { should be_listening }
+end
+
 # iptables is configured
-describe iptables(chain: 'IN_public_allow') do
-  it { should have_rule('-A IN_public_allow -p tcp -m tcp --dport 8112 -m conntrack --ctstate NEW -j ACCEPT') }
+describe iptables(chain: 'INPUT_direct') do
+  it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 8112 -m comment --comment deluge-web -j ACCEPT') }
+  it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 58846 -m comment --comment deluged -j ACCEPT') }
 end
