@@ -122,6 +122,7 @@ describe file('/var/lib/deluge/.config/deluge/core.conf') do
   its('content') { should match '"dht": false,' }
   its('content') { should match '"move_completed": true,' }
   its('content') { should match '"lsd": false,' }
+  its('content') { should match '"random_port": false,' }
 end
 
 # label.conf file exists
@@ -163,8 +164,21 @@ describe port(58_846) do
   it { should be_listening }
 end
 
+# deluge network incoming tcp ports are listening
+describe port.where { protocol =~ /tcp/ && port > 6880 && port < 6892 } do
+  it { should be_listening }
+end
+
+# deluge network incoming udp ports are listening
+describe port.where { protocol =~ /udp/ && port > 6880 && port < 6892 } do
+  it { should be_listening }
+end
+
+
 # iptables is configured
 describe iptables(chain: 'INPUT_direct') do
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 8112 -m comment --comment deluge-web -j ACCEPT') }
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 58846 -m comment --comment deluged -j ACCEPT') }
+  it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 6881:6891 -m comment --comment deluge-incoming-tcp -j ACCEPT') }
+  it { should have_rule('-A INPUT_direct -p udp -m multiport --dports 6881:6891 -m comment --comment deluge-incoming-udp -j ACCEPT') }
 end
