@@ -38,6 +38,7 @@ suites:
               utpex: "false"
               dht: "false"
               lsd: "false"
+              random_port: "false"
           label.conf: true
         plugin:
           enable: ['AutoAdd', 'Label']
