@@ -4,7 +4,11 @@
 #
 # Copyright (c) 2016 The Authors, All Rights Reserved.
 
-include_recipe 'firewall'
+# include_recipe 'firewall'
+# enable platform default firewall
+firewall 'default' do
+  action :install
+end
 
 # install wget
 package 'wget' do
