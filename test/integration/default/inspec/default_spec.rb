@@ -176,6 +176,7 @@ end
 
 # iptables is configured
 describe iptables(chain: 'INPUT_direct') do
+  it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 22 -m comment --comment ssh -j ACCEPT') }
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 8112 -m comment --comment deluge-web -j ACCEPT') }
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 58846 -m comment --comment deluged -j ACCEPT') }
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 6881:6891 -m comment --comment deluge-incoming-tcp -j ACCEPT') }

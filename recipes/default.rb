@@ -166,3 +166,9 @@ firewall_rule 'deluge-incoming-udp' do
   port 6881..6891
   command :allow
 end
+
+# open port for ssh connections
+firewall_rule 'ssh' do
+  port 22
+  command :allow
+end
