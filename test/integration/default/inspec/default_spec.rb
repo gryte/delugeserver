@@ -174,7 +174,6 @@ describe port.where { protocol =~ /udp/ && port > 6880 && port < 6892 } do
   it { should be_listening }
 end
 
-
 # iptables is configured
 describe iptables(chain: 'INPUT_direct') do
   it { should have_rule('-A INPUT_direct -p tcp -m tcp -m multiport --dports 8112 -m comment --comment deluge-web -j ACCEPT') }
