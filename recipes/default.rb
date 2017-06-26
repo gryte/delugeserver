@@ -41,13 +41,13 @@ end
 
 # install deluge-daemon
 package 'deluge-daemon' do
-  action :install
+  action :upgrade
   notifies :create, 'template[create_systemd_deluged_service]', :immediately
 end
 
 # install deluge-web
 package 'deluge-web' do
-  action :install
+  action :upgrade
 end
 
 # create deluged.service file
