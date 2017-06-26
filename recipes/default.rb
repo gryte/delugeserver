@@ -84,7 +84,7 @@ end
 
 # install deluge-console
 package 'deluge-console' do
-  action :install
+  action :upgrade
 end
 
 # manage deluge app directories
