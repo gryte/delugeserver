@@ -1,4 +1,7 @@
 
+# manage version
+default['deluge']['version'] = '1.3.11-1.el7.nux'
+
 #    manage auth file users
 #
 # If set to true, then the cookbook will create the file

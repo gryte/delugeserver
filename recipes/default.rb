@@ -41,13 +41,15 @@ end
 
 # install deluge-daemon
 package 'deluge-daemon' do
-  action :upgrade
+  version node['deluge']['version']
+  action :install
   notifies :create, 'template[create_systemd_deluged_service]', :immediately
 end
 
 # install deluge-web
 package 'deluge-web' do
-  action :upgrade
+  version node['deluge']['version']
+  action :install
 end
 
 # create deluged.service file
@@ -84,7 +86,8 @@ end
 
 # install deluge-console
 package 'deluge-console' do
-  action :upgrade
+  version node['deluge']['version']
+  action :install
 end
 
 # manage deluge app directories
