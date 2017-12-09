@@ -26,6 +26,7 @@ end
 # deluge-web is installed
 describe package('deluge-web') do
   it { should be_installed }
+  its('version') { should eq '1.3.11-1.el7.nux' }
 end
 
 # deluge-web service is enabled and running
@@ -80,6 +81,7 @@ end
 # deluged is installed
 describe package('deluge-daemon') do
   it { should be_installed }
+  its('version') { should eq '1.3.11-1.el7.nux' }
 end
 
 # deluged.service exists
