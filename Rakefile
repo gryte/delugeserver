@@ -8,12 +8,14 @@ end
 
 desc 'Run foodcritic in current directory'
 task :foodcritic do
-  sh 'foodcritic .'
+  # ignore databag helper rule: http://www.foodcritic.io/#FC086
+  # it is not clear how to perform this work outside of the .erb file
+  sh 'foodcritic . --tags ~FC086'
 end
 
 desc 'Knife upload deluge cookbook to test environment'
 task :upload_test do
-  sh 'knife cookbook upload -o .. delugeserver -E test'
+  sh 'knife cookbook upload -o .. delugeserver -E test --force'
 end
 
 desc 'Knife upload deluge cookbook to prod environment'
@@ -36,5 +38,5 @@ task remove_test: [:deletenode_test, :deleteclient_test]
 
 desc 'Bootstrap test server'
 task bootstrap_test: [:upload_test] do
-  sh 'knife bootstrap 192.168.1.211 -E test -N testserver -r delugeserver --sudo --ssh-user test --ssh-password test --use-sudo-password'
+  sh 'knife bootstrap 192.168.1.234 -E test -N testserver -r role[delugeserver_role] --sudo --ssh-user test --ssh-password test --use-sudo-password --bootstrap-version 12.19.36'
 end
