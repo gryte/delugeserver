@@ -25,14 +25,6 @@ Use Kitchen for integration testing.
 kitchen test
 ```
 
-## Release History
-
-* 1.1.0
-    * Add gemfile
-
-* 1.0.0
-    * Initial Release
-
 ## Meta
 
 |branch|travis-ci status|
