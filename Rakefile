@@ -13,14 +13,9 @@ task :foodcritic do
   sh 'foodcritic . --tags ~FC086'
 end
 
-desc 'Knife upload deluge cookbook to test environment'
-task :upload_test do
-  sh 'knife cookbook upload -o .. delugeserver -E test --force'
-end
-
-desc 'Knife upload deluge cookbook to prod environment'
-task :upload_prod do
-  sh 'knife cookbook upload -o .. delugeserver -E prod'
+desc 'Berks upload deluge cookbook'
+task :upload do
+  sh 'berks upload'
 end
 
 desc 'Delete testserver node'
@@ -37,6 +32,6 @@ desc 'Remove testserver from chef server'
 task remove_test: [:deletenode_test, :deleteclient_test]
 
 desc 'Bootstrap test server'
-task bootstrap_test: [:upload_test] do
+task bootstrap_test: [:upload] do
   sh 'knife bootstrap 192.168.1.234 -E test -N testserver -r role[delugeserver_role] --sudo --ssh-user test --ssh-password test --use-sudo-password --bootstrap-version 14.0.202'
 end
