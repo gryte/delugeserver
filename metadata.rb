@@ -4,7 +4,7 @@ maintainer_email 'alinkous+support@gmail.com'
 license 'MIT'
 description 'Installs/Configures delugeserver'
 long_description 'Installs/Configures delugeserver'
-version '2.1.2'
+version '2.1.3'
 supports 'centos'
 chef_version '>= 12.19' if respond_to?(:chef_version)
 issues_url 'https://github.com/gryte/delugeserver/issues' if respond_to?(:issues_url)

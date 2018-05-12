@@ -41,6 +41,7 @@ end
 
 # install deluge-daemon
 package 'deluge-daemon' do
+  not_if 'rpm -q deluge-daemon | grep deluge-daemon-1.3.11-1.el7.nux.noarch'
   version node['deluge']['version']
   action :install
   notifies :create, 'template[create_systemd_deluged_service]', :immediately
@@ -48,6 +49,7 @@ end
 
 # install deluge-web
 package 'deluge-web' do
+  not_if 'rpm -q deluge-web | grep deluge-web-1.3.11-1.el7.nux.noarch'
   version node['deluge']['version']
   action :install
 end
@@ -86,6 +88,7 @@ end
 
 # install deluge-console
 package 'deluge-console' do
+  not_if 'rpm -q deluge-console | grep deluge-console-1.3.11-1.el7.nux.noarch'
   version node['deluge']['version']
   action :install
 end
