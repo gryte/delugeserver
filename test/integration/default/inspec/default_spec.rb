@@ -144,6 +144,16 @@ describe command('sudo -u deluge deluge-console "plugin -s" | grep Label') do
   its('stdout') { should match 'Label' }
 end
 
+# extractor.conf file exists
+describe file('/var/lib/deluge/.config/deluge/extractor.conf') do
+  it { should be_file }
+end
+
+# Plugin Extractor is enabled
+describe command('sudo -u deluge deluge-console "plugin -s" | grep Extractor') do
+  its('stdout') { should match 'Extractor' }
+end
+
 # unrar is installed
 describe package('unrar') do
   it { should be_installed }

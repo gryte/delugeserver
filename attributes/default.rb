@@ -14,15 +14,16 @@ default['deluge']['config']['auth'] = false
 #
 #    manage configuration files
 #
-# This will create and update the files /var/lib/deluge/.config/deluge/core.conf
-# and /var/lib/deluge/.config/deluge/label.conf. The core.conf file is updated
-# with items from 'settings' via the deluge-console. The label.conf is hard-coded
-# with a label.conf.erb file and requires the current values specified in 'directories'.
+# This will create and update the files /var/lib/deluge/.config/deluge/core.conf,
+# label.conf, and extractor.conf. The core.conf file is updated
+# with items from 'settings' via the deluge-console. The label.conf and extractor.conf are hard-coded
+# with a .erb file and requires the current values specified in 'directories'.
 # See .kitchen.yml for examples.
 #
 default['deluge']['config']['core.conf']['manage'] = false
 default['deluge']['config']['core.conf']['settings'] = {}
 default['deluge']['config']['label.conf'] = false
+default['deluge']['config']['extractor.conf'] = false
 
 #
 #    manage plugins

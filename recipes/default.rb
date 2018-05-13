@@ -122,6 +122,18 @@ template 'create_label.conf' do
   notifies :start, 'service[deluged]', :immediately
 end
 
+# manage extractor.conf file
+template 'create_extractor.conf' do
+  only_if { node['deluge']['config']['extractor.conf'] == true }
+  notifies :stop, 'service[deluged]', :before
+  action :create_if_missing
+  owner 'deluge'
+  group 'deluge'
+  path '/var/lib/deluge/.config/deluge/extractor.conf'
+  source 'extractor.conf.erb'
+  notifies :start, 'service[deluged]', :immediately
+end
+
 # install unrar
 package 'unrar' do
   action :install
