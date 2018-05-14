@@ -41,5 +41,6 @@ suites:
               lsd: "false"
               random_port: "false"
           label.conf: true
+          extractor.conf: true
         plugin:
-          enable: ['AutoAdd', 'Label']
+          enable: ['AutoAdd', 'Label', 'Extractor']
