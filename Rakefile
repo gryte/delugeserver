@@ -1,5 +1,5 @@
 desc 'Define default task'
-task default: [:cookstyle, :foodcritic]
+task default: [:cookstyle, :foodcritic, :berksupdate, :kitchentest, :berksupload]
 
 desc 'Run cookstyle'
 task :cookstyle do
@@ -13,8 +13,18 @@ task :foodcritic do
   sh 'foodcritic . --tags ~FC086'
 end
 
+desc 'Run berks update in current directory'
+task :berksupdate do
+  sh 'berks update'
+end
+
+desc 'Run kitchen test in current directory'
+task :kitchentest do
+  sh 'kitchen test'
+end
+
 desc 'Berks upload deluge cookbook'
-task :upload do
+task :berksupload do
   sh 'berks upload'
 end
 
@@ -32,6 +42,6 @@ desc 'Remove testserver from chef server'
 task remove_test: [:deletenode_test, :deleteclient_test]
 
 desc 'Bootstrap test server'
-task bootstrap_test: [:upload] do
-  sh 'knife bootstrap 192.168.1.234 -E test -N testserver -r role[delugeserver_role] --sudo --ssh-user test --ssh-password test --use-sudo-password --bootstrap-version 14.0.202'
+task bootstrap_test: [:berksupload, :remove_test] do
+  sh 'knife bootstrap 192.168.1.234 -E test -N testserver -r role[base_role],role[delugeserver_role] --sudo --ssh-user test --ssh-password test --use-sudo-password --bootstrap-version 14.4.56 --bootstrap-vault-item slack:webhooks'
 end
