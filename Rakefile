@@ -43,5 +43,14 @@ task remove_test: [:deletenode_test, :deleteclient_test]
 
 desc 'Bootstrap test server'
 task bootstrap_test: [:berksupload, :remove_test] do
-  sh 'knife bootstrap 192.168.1.234 -E test -N testserver -r role[base_role],role[delugeserver_role] --sudo --ssh-user test --ssh-password test --use-sudo-password --bootstrap-version 14.4.56 --bootstrap-vault-item slack:webhooks'
+  ip_addr = '192.168.1.234'
+  environment = 'test'
+  node_name = 'testserver'
+  run_list = "role[base_role],role[delugeserver_role]"
+  ssh_user = 'test'
+  ssh_pw = 'test'
+  bootstrap_version = '14.4.56'
+  bootstrap_vault_json = "'{ \"slack\": \"webhooks\", \"nfs_exports\": \"delugeserver_nfs\" }'"
+
+  sh "knife bootstrap #{ip_addr} -E #{environment} -N #{node_name} -r #{run_list} --sudo --ssh-user #{ssh_user} --ssh-password #{ssh_pw} --use-sudo-password --bootstrap_version #{bootstrap_version} --bootstrap-vault-json #{bootstrap_vault_json}"
 end
